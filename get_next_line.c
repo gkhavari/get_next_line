@@ -16,12 +16,11 @@ char *get_next_line(int fd)
 {
     char    *buffer;
     char    *next_line;
-    static char *left_over_chars;
+    static char *left_over_chars = NULL;
 
-    if (fd < 0, BUFFER_SIZE <= 0, read(fd, 0, 0) < 0)
+    if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
         return (NULL);
-    buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-    buffer = read_file(fd, buffer);
+    buffer = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
     if (!buffer)
         return (NULL);
     next_line = fill_line(fd, left_over_chars, buffer);
@@ -32,22 +31,48 @@ char *get_next_line(int fd)
     return (next_line);
 }
 
-char    *fill_line(int fd, char *left_over_chars, char *buffer)
+char    *fill_line(int fd, char *new_line, char *buffer)
 {
-/*This function fills the line buffer.
+    int bytes_read;
 
-- read BUFFER_SIZE characters in each iteration until there's a \n or \0 character in the line buffer.
-- Each time through the loop, check if there is already data in the left_c buffer, if there is, it will append the new read characters to it. If not, it will duplicate the content of the read buffer into the left_c buffer.
-- If a \n is found, it will break out of the loop and return the left_c buffer after appending the read characters to it.*/
+    bytes_read = 0;
+    while (bytes_read >= 0)
+    {
+        bytes_read = read(fd, buffer, BUFFER_SIZE);
+        if (bytes_read == 0)
+            return(new_line);
+        else if (bytes_read > 0)
+        {
+            new_line = ft_strjoin(new_line, buffer);
+            if (ft_strchr(buffer, '\n'))
+                break;
+        }
+        else
+            return (NULL);
+    }
+    return (new_line);
 }
 
 char *setup_line(char *line_buffer)
 {
-/*This function take the line buffer as parameter, it reads in it until a \n or \0 character is found, meaning the end of a line, or the end of the file.
+    size_t  i;
+    char    *left_over_chars;
 
-This function sets the line_buffer a \0 at the end of the line inside of it and it returns a substring of the buffer from the end of the line, to the end of the buffer.
-This substring is returned as left_c. 
-*/
+    i = 0;
+    while (line_buffer[i] != '\n' && line_buffer[i] != '\0')
+        i++;
+    if (line_buffer[i] == '\n')
+    {
+        line_buffer[i] = '\0';
+        left_over_chars = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
+        if (!left_over_chars)
+            return (NULL);
+        return (left_over_chars);
+    }
+    else if (line_buffer[i] == '\0' || line_buffer[i + 1] == '\0')
+        return (NULL);
+    else
+        return (NULL);
 }
 
 
