@@ -7,9 +7,12 @@ int main()
 	int i = 0;
 
 	fd = open("der_panter", O_RDONLY);
-	while (i < 10)
+	char *to_print = get_next_line(fd);
+	while (to_print)
 	{
-		printf("%s\n", get_next_line(fd));
+		printf("%s\n", to_print);
+		free(to_print);
+		to_print = get_next_line(fd);
 		i++;
 	}
 }

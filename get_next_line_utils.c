@@ -14,9 +14,9 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	void	*r;
-	size_t	total_size;
-	size_t	i;
+	void			*r;
+	size_t			total_size;
+	size_t			i;
 	unsigned char	*ptr;
 
 	total_size = nmemb * size;
