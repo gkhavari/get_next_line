@@ -19,14 +19,23 @@ char	*get_next_line(int fd)
 	static char	*left_over_chars = NULL;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(left_over_chars);
 		return (NULL);
+	}
 	buffer = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
+	{
+		free(left_over_chars);
 		return (NULL);
+	}
 	next_line = fill_line(fd, left_over_chars, buffer);
 	free(buffer);
 	if (!next_line)
+	{
+		free(left_over_chars);
 		return (NULL);
+	}
 	left_over_chars = setup_line(next_line);
 	return (next_line);
 }
@@ -74,7 +83,7 @@ char	*setup_line(char *line_buffer)
 		left_over_chars = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
 		if (!left_over_chars)
 			return (NULL);
-		line_buffer[i] = '\0';
+		line_buffer[i+1] = '\0';
 		return (left_over_chars);
 	}
 	else if (line_buffer[i] == '\0' || line_buffer[i + 1] == '\0')

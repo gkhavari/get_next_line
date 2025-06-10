@@ -57,7 +57,7 @@ char	*ft_substr(char *str, size_t start, size_t len)
 		len_sub = len;
 	else
 		len_sub = len_str - start;
-	sub = (char *)calloc(len_sub + 1, sizeof(char));
+	sub = (char *)ft_calloc(len_sub + 1, sizeof(char));
 	if (sub == NULL)
 		return (NULL);
 	if (start >= len_str)
@@ -82,7 +82,7 @@ char	*ft_strjoin(char const *str1, char const *str2)
 		return (NULL);
 	len1 = ft_strlen(str1);
 	len2 = ft_strlen(str2);
-	joined = (char *)calloc(len1 + len2 + 1, sizeof(char));
+	joined = (char *)ft_calloc(len1 + len2 + 1, sizeof(char));
 	if (joined == NULL)
 		return (NULL);
 	i = 0;
@@ -122,7 +122,7 @@ char	*ft_strdup(const char *s)
 	char	*cpy;
 
 	len = ft_strlen(s);
-	cpy = (char *)calloc(len + 1, sizeof(char));
+	cpy = (char *)ft_calloc(len + 1, sizeof(char));
 	if (cpy == NULL)
 		return (NULL);
 	i = 0;
