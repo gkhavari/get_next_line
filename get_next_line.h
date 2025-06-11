@@ -25,5 +25,6 @@ char	*ft_substr(char *str, size_t start, size_t end);
 char	*ft_strjoin(char const *str1, char const *str2);
 char	*ft_strchr(const char *str, int c);
 char	*ft_strdup(const char *s);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif // GET_NEXT_LINE_H

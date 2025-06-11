@@ -18,12 +18,12 @@ char	*get_next_line(int fd)
 	char		*next_line;
 	static char	*left_over_chars = NULL;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(left_over_chars);
 		return (NULL);
 	}
-	buffer = (char *)calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 	{
 		free(left_over_chars);
@@ -86,7 +86,7 @@ char	*setup_line(char *line_buffer)
 		line_buffer[i+1] = '\0';
 		return (left_over_chars);
 	}
-	else if (line_buffer[i] == '\0' || line_buffer[i + 1] == '\0')
+	else if (line_buffer[i] == '\0')
 		return (NULL);
 	else
 		return (NULL);

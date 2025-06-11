@@ -53,6 +53,8 @@ char	*ft_substr(char *str, size_t start, size_t len)
 	if (str == NULL)
 		return (NULL);
 	len_str = ft_strlen(str);
+	if (start >= len_str)
+		return (ft_strdup(""));
 	if (len_str - start > len)
 		len_sub = len;
 	else
@@ -60,8 +62,6 @@ char	*ft_substr(char *str, size_t start, size_t len)
 	sub = (char *)ft_calloc(len_sub + 1, sizeof(char));
 	if (sub == NULL)
 		return (NULL);
-	if (start >= len_str)
-		return (sub);
 	i = 0;
 	while (i < len_sub)
 	{

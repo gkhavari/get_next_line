@@ -3,23 +3,24 @@
 
 int main()
 {
-	int fd = open("der_panther", O_RDONLY);
-	char *to_print;
-	int i = 0;
+	int	fd = open("43_no_nl", O_RDONLY);
+	char	*ptr;
+	int i;
 
+	i = 0;
 	while (1)
 	{
-		to_print = get_next_line(fd);
-		if(!to_print)
-		{
-			printf("It's NULL!");
-			break ;
-		}
-		printf("%s", to_print);
-		free(to_print);
-		to_print = NULL;
-		i++;
+	ptr = get_next_line(fd);
+	if (!ptr)
+	{
+		close(fd);
+		return (1);
+	}
+	printf("%s", ptr);
+	free(ptr);
+	ptr = NULL;
+	i++;
 	}
 	close(fd);
-	return(0);
-}
+	return (0);
+	}
