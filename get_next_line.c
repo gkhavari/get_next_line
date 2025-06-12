@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 	char		*next_line;
 	static char	*left_over_chars = NULL;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
 	{
 		free(left_over_chars);
 		return (NULL);
@@ -37,7 +37,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	left_over_chars = setup_line(next_line);
-	return (next_line);
+	if (!next_line[0])
+	{
+		free(next_line);
+		return NULL;
+	}
+	else
+		return (next_line);
 }
 
 char	*fill_line(int fd, char *new_line, char *buffer)
@@ -51,6 +57,7 @@ char	*fill_line(int fd, char *new_line, char *buffer)
 		if (new_line && ft_strchr(new_line, '\n'))
 			break ;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		buffer[bytes_read] = '\0';
 		if (bytes_read == 0)
 			return (new_line);
 		else if (bytes_read > 0)
