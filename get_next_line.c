@@ -18,7 +18,7 @@ char	*get_next_line(int fd)
 	char		*next_line;
 	static char	*left_over_chars = NULL;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0))
+	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(left_over_chars);
 		return (NULL);
@@ -57,11 +57,11 @@ char	*fill_line(int fd, char *new_line, char *buffer)
 		if (new_line && ft_strchr(new_line, '\n'))
 			break ;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[bytes_read] = '\0';
 		if (bytes_read == 0)
 			return (new_line);
 		else if (bytes_read > 0)
 		{
+			buffer[bytes_read] = '\0';
 			if (!new_line)
 				new_line = ft_strdup(buffer);
 			else
@@ -89,7 +89,9 @@ char	*setup_line(char *line_buffer)
 	{
 		left_over_chars = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
 		if (!left_over_chars)
+		{
 			return (NULL);
+		}
 		line_buffer[i+1] = '\0';
 		return (left_over_chars);
 	}
