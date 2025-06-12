@@ -12,6 +12,10 @@
 
 #include "get_next_line.h"
 
+char	*fill_line(int fd, char *new_line, char *buffer);
+char	*setup_line(char *line_buffer);
+char	*free_and_return(char *to_free, char *to_return);
+
 char	*get_next_line(int fd)
 {
 	char		*buffer;
@@ -19,37 +23,23 @@ char	*get_next_line(int fd)
 	static char	*left_over_chars = NULL;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-	{
-		free(left_over_chars);
-		return (NULL);
-	}
+		return (free_and_return(left_over_chars, NULL));
 	buffer = (char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
-	{
-		free(left_over_chars);
-		return (NULL);
-	}
+		return (free_and_return(left_over_chars, NULL));
 	next_line = fill_line(fd, left_over_chars, buffer);
 	free(buffer);
 	if (!next_line)
-	{
-		free(left_over_chars);
-		return (NULL);
-	}
+		return (free_and_return(left_over_chars, NULL));
 	left_over_chars = setup_line(next_line);
 	if (!next_line[0])
-	{
-		free(next_line);
-		return NULL;
-	}
-	else
-		return (next_line);
+		return (free_and_return(next_line, NULL));
+	return (next_line);
 }
 
 char	*fill_line(int fd, char *new_line, char *buffer)
 {
 	int		bytes_read;
-	char	*temp;
 
 	bytes_read = 0;
 	while (bytes_read >= 0)
@@ -63,13 +53,10 @@ char	*fill_line(int fd, char *new_line, char *buffer)
 		{
 			buffer[bytes_read] = '\0';
 			if (!new_line)
-				new_line = ft_strdup(buffer);
+				new_line = ft_strjoin("", buffer);
 			else
-			{
-				temp = ft_strjoin(new_line, buffer);
-				free(new_line);
-				new_line = temp;
-			}
+				new_line = free_and_return(new_line,
+						ft_strjoin(new_line, buffer));
 		}
 		else
 			return (NULL);
@@ -87,16 +74,21 @@ char	*setup_line(char *line_buffer)
 		i++;
 	if (line_buffer[i] == '\n')
 	{
-		left_over_chars = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
+		left_over_chars = ft_substr(line_buffer, i + 1,
+				ft_strlen(line_buffer) - i);
 		if (!left_over_chars)
-		{
 			return (NULL);
-		}
-		line_buffer[i+1] = '\0';
+		line_buffer[i + 1] = '\0';
 		return (left_over_chars);
 	}
 	else if (line_buffer[i] == '\0')
 		return (NULL);
 	else
 		return (NULL);
+}
+
+char	*free_and_return(char *to_free, char *to_return)
+{
+	free(to_free);
+	return (to_return);
 }

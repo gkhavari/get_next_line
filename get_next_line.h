@@ -17,13 +17,10 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-char	*fill_line(int fd, char *new_line, char *buffer);
-char	*setup_line(char *line_buffer);
 size_t	ft_strlen(const char *str);
 char	*ft_substr(char *str, size_t start, size_t end);
 char	*ft_strjoin(char const *str1, char const *str2);
 char	*ft_strchr(const char *str, int c);
-char	*ft_strdup(const char *s);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif // GET_NEXT_LINE_H

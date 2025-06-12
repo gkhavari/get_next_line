@@ -54,7 +54,7 @@ char	*ft_substr(char *str, size_t start, size_t len)
 		return (NULL);
 	len_str = ft_strlen(str);
 	if (start >= len_str)
-		return (ft_strdup(""));
+		return (ft_strjoin("", ""));
 	if (len_str - start > len)
 		len_sub = len;
 	else
@@ -113,23 +113,4 @@ char	*ft_strchr(const char *str, int c)
 	if (c == '\0')
 		return ((char *)&str[i]);
 	return (NULL);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	size_t	i;
-	char	*cpy;
-
-	len = ft_strlen(s);
-	cpy = (char *)ft_calloc(len + 1, sizeof(char));
-	if (cpy == NULL)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		cpy[i] = s[i];
-		i++;
-	}
-	return (cpy);
 }
